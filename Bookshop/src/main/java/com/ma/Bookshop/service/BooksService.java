@@ -1,11 +1,12 @@
 package com.ma.Bookshop.service;
 
+import com.ma.Bookshop.ValidationException;
 import com.ma.Bookshop.dto.BooksDto;
 
 import java.util.List;
 
 public interface BooksService {
-    BooksDto saveUser(BooksDto booksDto);
+    BooksDto saveBook(BooksDto booksDto) throws ValidationException;
 
     void deleteBook(Integer bookId);
 

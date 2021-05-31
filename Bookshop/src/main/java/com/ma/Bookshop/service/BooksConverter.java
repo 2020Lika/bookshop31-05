@@ -2,7 +2,9 @@ package com.ma.Bookshop.service;
 
 import com.ma.Bookshop.dto.BooksDto;
 import com.ma.Bookshop.entity.Book;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BooksConverter {
 
         public Book.Books fromBookDtoToBook(BooksDto booksDto) {
@@ -15,7 +17,7 @@ public class BooksConverter {
             return books;
         }
 
-    public BooksDto fromBookToBookDto(BooksDto books) {
+    public BooksDto fromBookToBookDto(Book.Books books) {
         return BooksDto.builder()
                 .id(books.getId())
                 .name(books.getName())
@@ -25,10 +27,12 @@ public class BooksConverter {
                 .build();
     }
 
+/*
     public Object fromBookToBookDto() {
     }
 
     public Object fromBookToBookDto(Object o) {
     }
+*/
 }
 

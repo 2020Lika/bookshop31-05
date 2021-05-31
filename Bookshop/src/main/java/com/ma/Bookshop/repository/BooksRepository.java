@@ -1,9 +1,11 @@
 package com.ma.Bookshop.repository;
 
+import com.ma.Bookshop.entity.Book;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+@Repository
+public interface BooksRepository extends CrudRepository<Book.Books, Integer> {
 
-public interface BooksRepository<Books> extends JpaRepository<Books, Integer> {
-
-    Books findByName(String name);
+    Book.Books findByName(String name);
 }

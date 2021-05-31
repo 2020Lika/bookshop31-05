@@ -8,22 +8,23 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Service
 @AllArgsConstructor
-
-    public class DefaultBooksService implements BooksService {
+public class DefaultBooksService implements BooksService {
     
     private final BooksRepository booksRepository;
     private final BooksConverter booksConverter;
 
-
+    @Override
     public BooksDto saveBook(BooksDto booksDto) throws ValidationException {
         validateBookDto(booksDto);
-        Book.Books savedBook = (Book.Books) booksRepository.save(booksConverter.fromBookDtoToBook(booksDto));
-        return (BooksDto) booksConverter.fromBookToBookDto();
+        Book.Books savedBook = booksRepository.save(booksConverter.fromBookDtoToBook(booksDto));
+        return booksConverter.fromBookToBookDto(savedBook);
     }
 
     private void validateBookDto(BooksDto booksDto) throws ValidationException {
@@ -33,11 +34,7 @@ import java.util.stream.Collectors;
     }
 
     private boolean isNull(BooksDto booksDto) {
-    }
-
-    @Override
-    public BooksDto saveUser(BooksDto booksDto) {
-        return null;
+        return Objects.isNull(booksDto);
     }
 
     @Override
@@ -47,9 +44,7 @@ import java.util.stream.Collectors;
 
     @Override
     public BooksDto findByName(String name) {
-        DefaultBooksService booksRepository = null;
-        assert booksRepository != null;
-        BooksDto books = booksRepository.findByName(name);
+        Book.Books books = booksRepository.findByName(name);
         if (books != null) {
             return booksConverter.fromBookToBookDto(books);
         }
@@ -58,8 +53,7 @@ import java.util.stream.Collectors;
 
     @Override
     public List<BooksDto> findAll() {
-        return (List<BooksDto>) booksRepository.findAll()
-                .stream()
+        return StreamSupport.stream(booksRepository.findAll().spliterator(), false)
                 .map(booksConverter::fromBookToBookDto)
                 .collect(Collectors.toList());
     }

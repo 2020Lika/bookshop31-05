@@ -21,7 +21,7 @@ public class BooksController {
     @PostMapping("/save")
     public BooksDto saveBooks(@RequestBody BooksDto booksDto) throws ValidationException {
         log.info("Handling save books: " + booksDto);
-        return booksService.saveUser(booksDto);
+        return booksService.saveBook(booksDto);
     }
 
     @GetMapping("/findAll")
